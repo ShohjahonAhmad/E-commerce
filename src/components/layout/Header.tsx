@@ -1,18 +1,26 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Search, ShoppingBag, User, Menu, X, LogOut, Shield } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { useCart } from '@/context/CartContext';
-import { useAuth } from '@/context/AuthContext';
-import { useUserRoles } from '@/hooks/useUserRoles';
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  Search,
+  ShoppingBag,
+  User,
+  Menu,
+  X,
+  LogOut,
+  Shield,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useCart } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext";
+import { useUserRoles } from "@/hooks/useUserRoles";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -23,19 +31,19 @@ export function Header() {
 
   const handleSignOut = async () => {
     await signOut();
-    navigate('/');
+    navigate("/");
   };
 
   const getInitials = () => {
     if (profile?.display_name) {
       return profile.display_name
-        .split(' ')
+        .split(" ")
         .map((n) => n[0])
-        .join('')
+        .join("")
         .toUpperCase()
         .slice(0, 2);
     }
-    return user?.email?.[0].toUpperCase() || 'U';
+    return user?.email?.[0].toUpperCase() || "U";
   };
 
   return (
@@ -48,7 +56,11 @@ export function Header() {
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle menu"
           >
-            {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {isMenuOpen ? (
+              <X className="h-5 w-5" />
+            ) : (
+              <Menu className="h-5 w-5" />
+            )}
           </button>
 
           {/* Logo */}
@@ -60,19 +72,34 @@ export function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
-            <Link to="/shop" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            <Link
+              to="/shop"
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            >
               Shop All
             </Link>
-            <Link to="/shop?category=clothing" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            <Link
+              to="/shop?category=clothing"
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            >
               Clothing
             </Link>
-            <Link to="/shop?category=shoes" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            <Link
+              to="/shop?category=shoes"
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            >
               Shoes
             </Link>
-            <Link to="/shop?category=bags" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            <Link
+              to="/shop?category=bags"
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            >
               Bags
             </Link>
-            <Link to="/shop?category=accessories" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            <Link
+              to="/shop?category=accessories"
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            >
               Accessories
             </Link>
           </nav>
@@ -82,7 +109,7 @@ export function Header() {
             <Button variant="ghost" size="icon" className="hidden md:flex">
               <Search className="h-5 w-5" />
             </Button>
-            
+
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -101,7 +128,7 @@ export function Header() {
                       {profile?.display_name || user.email}
                     </p>
                     <p className="text-xs text-muted-foreground capitalize">
-                      {profile?.role || 'Member'}
+                      {profile?.role || "Member"}
                     </p>
                   </div>
                   <DropdownMenuSeparator />
@@ -119,14 +146,20 @@ export function Header() {
                   )}
                   {isAdmin() && (
                     <DropdownMenuItem asChild>
-                      <Link to="/admin" className="cursor-pointer flex items-center">
+                      <Link
+                        to="/admin"
+                        className="cursor-pointer flex items-center"
+                      >
                         <Shield className="h-4 w-4 mr-2" />
                         Admin Dashboard
                       </Link>
                     </DropdownMenuItem>
                   )}
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={handleSignOut} className="text-destructive cursor-pointer">
+                  <DropdownMenuItem
+                    onClick={handleSignOut}
+                    className="text-destructive cursor-pointer"
+                  >
                     <LogOut className="h-4 w-4 mr-2" />
                     Sign Out
                   </DropdownMenuItem>
@@ -139,7 +172,7 @@ export function Header() {
                 </Button>
               </Link>
             )}
-            
+
             <Link to="/cart" className="relative">
               <Button variant="ghost" size="icon">
                 <ShoppingBag className="h-5 w-5" />

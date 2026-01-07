@@ -1,33 +1,33 @@
-import { useState, useMemo, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { Layout } from '@/components/layout/Layout';
-import { ProductGrid } from '@/components/products/ProductGrid';
-import { useProducts } from '@/hooks/useProducts';
-import { mockProducts } from '@/data/products';
-import { Category, Condition, SortOption, Product } from '@/types/product';
-import { Button } from '@/components/ui/button';
-import { SlidersHorizontal, X } from 'lucide-react';
+import { useState, useMemo, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
+import { Layout } from "@/components/layout/Layout";
+import { ProductGrid } from "@/components/products/ProductGrid";
+import { useProducts } from "@/hooks/useProducts";
+import { mockProducts } from "@/data/products";
+import { Category, Condition, SortOption, Product } from "@/types/product";
+import { Button } from "@/components/ui/button";
+import { SlidersHorizontal, X } from "lucide-react";
 
 const categories: { value: Category; label: string }[] = [
-  { value: 'all', label: 'All' },
-  { value: 'clothing', label: 'Clothing' },
-  { value: 'shoes', label: 'Shoes' },
-  { value: 'bags', label: 'Bags' },
-  { value: 'accessories', label: 'Accessories' },
+  { value: "all", label: "All" },
+  { value: "clothing", label: "Clothing" },
+  { value: "shoes", label: "Shoes" },
+  { value: "bags", label: "Bags" },
+  { value: "accessories", label: "Accessories" },
 ];
 
 const conditions: { value: Condition; label: string }[] = [
-  { value: 'all', label: 'All Conditions' },
-  { value: 'new', label: 'New' },
-  { value: 'like-new', label: 'Like New' },
-  { value: 'good', label: 'Good' },
-  { value: 'fair', label: 'Fair' },
+  { value: "all", label: "All Conditions" },
+  { value: "new", label: "New" },
+  { value: "like-new", label: "Like New" },
+  { value: "good", label: "Good" },
+  { value: "fair", label: "Fair" },
 ];
 
 const sortOptions: { value: SortOption; label: string }[] = [
-  { value: 'newest', label: 'Newest' },
-  { value: 'price-low', label: 'Price: Low to High' },
-  { value: 'price-high', label: 'Price: High to Low' },
+  { value: "newest", label: "Newest" },
+  { value: "price-low", label: "Price: Low to High" },
+  { value: "price-high", label: "Price: High to Low" },
 ];
 
 export default function Shop() {
@@ -35,14 +35,22 @@ export default function Shop() {
   const [showFilters, setShowFilters] = useState(false);
   const { products: dbProducts, isLoading } = useProducts();
 
-  const categoryParam = searchParams.get('category') as Category | null;
+  const categoryParam = searchParams.get("category") as Category | null;
   const [selectedCategory, setSelectedCategory] = useState<Category>(
     categoryParam && categories.some((c) => c.value === categoryParam)
       ? categoryParam
-      : 'all'
+      : "all"
   );
-  const [selectedCondition, setSelectedCondition] = useState<Condition>('all');
-  const [sortBy, setSortBy] = useState<SortOption>('newest');
+  const [selectedCondition, setSelectedCondition] = useState<Condition>("all");
+  const [sortBy, setSortBy] = useState<SortOption>("newest");
+
+  useEffect(() => {
+    const next =
+      categoryParam && categories.some((c) => c.value === categoryParam)
+        ? categoryParam
+        : "all";
+    setSelectedCategory(next);
+  }, [categoryParam]);
 
   // Combine database products with mock products (mock products as fallback)
   const allProducts = useMemo(() => {
@@ -56,24 +64,24 @@ export default function Shop() {
     let products = [...allProducts];
 
     // Filter by category
-    if (selectedCategory !== 'all') {
+    if (selectedCategory !== "all") {
       products = products.filter((p) => p.category === selectedCategory);
     }
 
     // Filter by condition
-    if (selectedCondition !== 'all') {
+    if (selectedCondition !== "all") {
       products = products.filter((p) => p.condition === selectedCondition);
     }
 
     // Sort
     switch (sortBy) {
-      case 'price-low':
+      case "price-low":
         products.sort((a, b) => a.price - b.price);
         break;
-      case 'price-high':
+      case "price-high":
         products.sort((a, b) => b.price - a.price);
         break;
-      case 'newest':
+      case "newest":
       default:
         products.sort(
           (a, b) =>
@@ -86,23 +94,23 @@ export default function Shop() {
 
   const handleCategoryChange = (category: Category) => {
     setSelectedCategory(category);
-    if (category === 'all') {
-      searchParams.delete('category');
+    if (category === "all") {
+      searchParams.delete("category");
     } else {
-      searchParams.set('category', category);
+      searchParams.set("category", category);
     }
     setSearchParams(searchParams);
   };
 
   const clearFilters = () => {
-    setSelectedCategory('all');
-    setSelectedCondition('all');
-    setSortBy('newest');
+    setSelectedCategory("all");
+    setSelectedCondition("all");
+    setSortBy("newest");
     setSearchParams({});
   };
 
   const hasActiveFilters =
-    selectedCategory !== 'all' || selectedCondition !== 'all';
+    selectedCategory !== "all" || selectedCondition !== "all";
 
   return (
     <Layout>
@@ -110,12 +118,12 @@ export default function Shop() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl md:text-4xl font-serif font-medium mb-2">
-            {selectedCategory === 'all'
-              ? 'Shop All'
+            {selectedCategory === "all"
+              ? "Shop All"
               : categories.find((c) => c.value === selectedCategory)?.label}
           </h1>
           <p className="text-muted-foreground">
-            {isLoading ? 'Loading...' : `${filteredProducts.length} items`}
+            {isLoading ? "Loading..." : `${filteredProducts.length} items`}
           </p>
         </div>
 
@@ -173,8 +181,8 @@ export default function Shop() {
                       key={category.value}
                       variant={
                         selectedCategory === category.value
-                          ? 'default'
-                          : 'outline'
+                          ? "default"
+                          : "outline"
                       }
                       size="sm"
                       onClick={() => handleCategoryChange(category.value)}
@@ -196,8 +204,8 @@ export default function Shop() {
                       key={condition.value}
                       variant={
                         selectedCondition === condition.value
-                          ? 'default'
-                          : 'outline'
+                          ? "default"
+                          : "outline"
                       }
                       size="sm"
                       onClick={() => setSelectedCondition(condition.value)}
@@ -214,7 +222,9 @@ export default function Shop() {
         {/* Products */}
         {isLoading ? (
           <div className="text-center py-16">
-            <p className="text-lg text-muted-foreground animate-pulse">Loading products...</p>
+            <p className="text-lg text-muted-foreground animate-pulse">
+              Loading products...
+            </p>
           </div>
         ) : filteredProducts.length > 0 ? (
           <ProductGrid products={filteredProducts} />
@@ -223,11 +233,7 @@ export default function Shop() {
             <p className="text-lg text-muted-foreground">
               No products found matching your filters.
             </p>
-            <Button
-              variant="outline"
-              className="mt-4"
-              onClick={clearFilters}
-            >
+            <Button variant="outline" className="mt-4" onClick={clearFilters}>
               Clear Filters
             </Button>
           </div>

@@ -1,16 +1,19 @@
-import { ReactNode } from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
-import { useAuth } from '@/context/AuthContext';
-import { useUserRoles } from '@/hooks/useUserRoles';
+import { ReactNode } from "react";
+import { Navigate, useLocation } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext";
+import { useUserRoles } from "@/hooks/useUserRoles";
 
-type AppRole = 'admin' | 'seller' | 'buyer';
+type AppRole = "admin" | "seller" | "buyer";
 
 interface RoleProtectedRouteProps {
   children: ReactNode;
   allowedRoles: AppRole[];
 }
 
-export function RoleProtectedRoute({ children, allowedRoles }: RoleProtectedRouteProps) {
+export function RoleProtectedRoute({
+  children,
+  allowedRoles,
+}: RoleProtectedRouteProps) {
   const { user, isLoading: authLoading } = useAuth();
   const { roles, isLoading: rolesLoading } = useUserRoles();
   const location = useLocation();
