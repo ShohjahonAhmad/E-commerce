@@ -1,73 +1,198 @@
-# Welcome to your Lovable project
+# Marketplace (Buyer/Seller) Web App
 
-## Project info
+A web marketplace where users can browse products, view product details, add items to a cart, and checkout.  
+Users can authenticate, manage their profile, and (when assigned the **seller** role) access a **Seller Dashboard** to create and manage product listings. Admin users can access an **Admin Dashboard**.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## What this project does
 
-## How can I edit this code?
+### Buyer features
 
-There are several ways of editing your application.
+- Browse the **Shop** catalog
+- View **Product** detail pages
+- Add/remove products in the **Cart**
+- Proceed through **Checkout**
+- Register / log in and manage **Profile**
 
-**Use Lovable**
+### Seller features
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+- Access **/dashboard** (Seller Dashboard)
+- Create, edit, and delete product listings
+- Upload product images (stored in Supabase Storage)
+- View seller stats (total listings, active listings, total value)
 
-Changes made via Lovable will be committed automatically to this repo.
+### Admin features
 
-**Use your preferred IDE**
+- Access **/admin** (Admin Dashboard)
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## Tech stack / tools used
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### Frontend
 
-Follow these steps:
+- **React** + **TypeScript**
+- **Vite** (dev server + build)
+- **React Router** (routing)
+- **Tailwind CSS** (styling)
+- **shadcn/ui** (UI components)
+- **TanStack Query** (`@tanstack/react-query`) (server-state caching)
+- **Zod** (form validation)
+- **Sonner** (toast notifications)
+- **Lucide React** (icons)
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+### Backend (BaaS)
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+- **Supabase**
+  - Authentication
+  - Postgres database (tables like `products`, `profiles`, etc.)
+  - Storage bucket (e.g. `product-images`)
+  - Row Level Security (RLS) policies
 
-# Step 3: Install the necessary dependencies.
-npm i
+### Tooling
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+- **ESLint** (linting)
+- **Bun** (recommended package manager; lockfile: `bun.lock`)
+  - You can use npm/pnpm, but Bun is what this repo is set up for.
+
+## Repository structure (high level)
+
+- [src/App.tsx](src/App.tsx): routes and providers
+- [src/pages](src/pages): top-level pages (Shop, Product, Cart, Checkout, Profile, dashboards)
+- [src/components](src/components): shared UI and layout components
+- [src/context](src/context): app state (Auth, Cart)
+- [src/hooks](src/hooks): reusable hooks (e.g., roles)
+- [src/integrations/supabase](src/integrations/supabase): Supabase client setup
+- [supabase/migrations](supabase/migrations): database migrations and RLS policies
+
+## Required tools / applications
+
+Install the following to run the project locally:
+
+1. **Bun** (recommended)
+   - https://bun.sh/
+2. **Node.js** (if you prefer npm)
+   - https://nodejs.org/
+3. A **Supabase** project (local or hosted)
+   - Hosted: https://supabase.com/
+   - Optional local dev: Supabase CLI https://supabase.com/docs/guides/cli
+4. **Git** (to clone the repo)
+   - https://git-scm.com/
+5. (Optional) **VS Code**
+   - https://code.visualstudio.com/
+
+## Environment variables
+
+This project uses a root [.env](.env) file.
+
+You must configure Supabase environment variables (names may vary depending on the existing integration code):
+
+- `VITE_SUPABASE_URL`
+- `VITE_SUPABASE_ANON_KEY`
+
+If your workspace already has other required variables, keep them as-is.
+
+## Install & run (development)
+
+Using Bun:
+
+````sh
+bun install
+bun run dev
+
+# Install & Run (Development)
+
+Using npm:
+
+```bash
+npm install
 npm run dev
+````
+
+Then open the URL shown in the terminal (typically: http://localhost:5173)
+
+---
+
+# Build & Preview (Production)
+
+```bash
+npm run build
+npm run preview
 ```
 
-**Edit a file directly in GitHub**
+---
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+# How to Use the System (Manual)
 
-**Use GitHub Codespaces**
+## 1) Access the App
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+- Open the app in your browser
+- Use the header navigation to go to **Shop**, **Cart**, **Profile**, etc.
 
-## What technologies are used for this project?
+## 2) Create an Account / Log In
 
-This project is built with:
+- Go to `/register` to create an account
+- Go to `/login` to sign in
+- After login, open `/profile` to view account details
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## 3) Buyer Workflow
 
-## How can I deploy this project?
+- Open **Shop** (`/shop`)
+- Click a product to open the detail page (`/product/:id`)
+- Add the product to the cart
+- Open **Cart** (`/cart`)
+- Proceed to **Checkout** (`/checkout`)
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+## 4) Seller Workflow
 
-## Can I connect a custom domain to my Lovable project?
+A user must have the `seller` role in the database to access seller features.
 
-Yes, you can!
+- Log in as a seller user
+- Click **Seller Dashboard / Start Selling** (from the header or profile menu)
+- You will be redirected to `/dashboard`
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+**In the Seller Dashboard:**
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+- Click **Add Listing**
+- Fill in product details (title, brand, category, price, condition, etc.)
+- (Optional) Upload a product image
+- Click **Create Listing**
+
+**Verify:**
+
+- The new listing appears in **My Listings**
+- The listing appears in **Shop** (`/shop`) if it meets visibility conditions (commonly `is_active = true`)
+
+## 5) Admin Workflow
+
+A user must have the `admin` role to access admin features.
+
+- Navigate to `/admin` to open the **Admin Dashboard**
+
+---
+
+# Troubleshooting
+
+## Login Works but `/dashboard` Redirects to Home
+
+- Typically caused by role loading or RLS issues
+- Check the logged-in user has a role assigned (e.g., `profiles.role = seller`)
+- Check Supabase RLS policies allow reading roles and product inserts/selects
+- Check browser console/network panel for Supabase errors
+
+## “Failed to Create Product”
+
+- Usually indicates a Supabase RLS policy blocking inserts
+- Confirm insert policy allows `auth.uid()` to insert rows
+- Ensure `seller_id = auth.uid()` is permitted by RLS
+
+---
+
+# Scripts
+
+See the **scripts** section in `package.json` for available commands.
+
+---
+
+# License
+
+MIT License
+
+Copyright (c) 2026 Shokhjahon Akhmedov
