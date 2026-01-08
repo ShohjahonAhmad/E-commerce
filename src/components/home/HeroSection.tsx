@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
 
 export function HeroSection() {
   return (
@@ -16,7 +16,8 @@ export function HeroSection() {
               Fashion with a <span className="italic">Second Life</span>
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-              Discover unique pieces from top designers. Buy and sell authenticated luxury fashion in our peer-to-peer marketplace.
+              Discover unique pieces from top designers. Buy and sell
+              authenticated luxury fashion in our peer-to-peer marketplace.
             </p>
             <div className="flex flex-wrap gap-4">
               <Link to="/shop">
@@ -25,7 +26,7 @@ export function HeroSection() {
                   <ArrowRight className="h-4 w-4 ml-2" />
                 </Button>
               </Link>
-              <Link to="/sell">
+              <Link to="/dashboard">
                 <Button variant="heroOutline" size="xl">
                   Start Selling
                 </Button>
@@ -34,7 +35,10 @@ export function HeroSection() {
           </div>
 
           {/* Hero Image Grid */}
-          <div className="hidden lg:grid grid-cols-2 gap-4 animate-fade-in" style={{ animationDelay: '0.3s' }}>
+          <div
+            className="hidden lg:grid grid-cols-2 gap-4 animate-fade-in"
+            style={{ animationDelay: "0.3s" }}
+          >
             <div className="space-y-4">
               <div className="aspect-[3/4] rounded-sm overflow-hidden shadow-card">
                 <img

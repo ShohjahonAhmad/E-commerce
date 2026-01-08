@@ -1,29 +1,33 @@
-import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 
 const categories = [
   {
-    name: 'Clothing',
-    slug: 'clothing',
-    image: 'https://images.unsplash.com/photo-1558171813-4c088753af8f?w=600&q=80',
+    name: "Clothing",
+    slug: "clothing",
+    image:
+      "https://images.unsplash.com/photo-1558171813-4c088753af8f?w=600&q=80",
     count: 248,
   },
   {
-    name: 'Shoes',
-    slug: 'shoes',
-    image: 'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=600&q=80',
+    name: "Shoes",
+    slug: "shoes",
+    image:
+      "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=600&q=80",
     count: 156,
   },
   {
-    name: 'Bags',
-    slug: 'bags',
-    image: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=600&q=80',
+    name: "Bags",
+    slug: "bags",
+    image:
+      "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=600&q=80",
     count: 89,
   },
   {
-    name: 'Accessories',
-    slug: 'accessories',
-    image: 'https://images.unsplash.com/photo-1611085583191-a3b181a88401?w=600&q=80',
+    name: "Accessories",
+    slug: "accessories",
+    image:
+      "https://images.unsplash.com/photo-1611085583191-a3b181a88401?w=600&q=80",
     count: 124,
   },
 ];

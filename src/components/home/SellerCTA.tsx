@@ -1,22 +1,22 @@
-import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { ArrowRight, Package, Shield, TrendingUp } from 'lucide-react';
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { ArrowRight, Package, Shield, TrendingUp } from "lucide-react";
 
 const benefits = [
   {
     icon: Package,
-    title: 'Easy Listing',
-    description: 'Create listings in minutes with our simple tools',
+    title: "Easy Listing",
+    description: "Create listings in minutes with our simple tools",
   },
   {
     icon: Shield,
-    title: 'Secure Transactions',
-    description: 'Protected payments and verified buyers',
+    title: "Secure Transactions",
+    description: "Protected payments and verified buyers",
   },
   {
     icon: TrendingUp,
-    title: 'Reach Buyers',
-    description: 'Connect with fashion enthusiasts worldwide',
+    title: "Reach Buyers",
+    description: "Connect with fashion enthusiasts worldwide",
   },
 ];
 
@@ -33,10 +33,16 @@ export function SellerCTA() {
               Turn Your Closet Into Cash
             </h2>
             <p className="text-lg text-primary-foreground/80 leading-relaxed mb-8">
-              Join thousands of sellers on MODĒ. List your pre-loved luxury items and reach fashion-conscious buyers looking for quality pieces.
+              Join thousands of sellers on MODĒ. List your pre-loved luxury
+              items and reach fashion-conscious buyers looking for quality
+              pieces.
             </p>
             <Link to="/register">
-              <Button variant="heroOutline" size="xl" className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
+              <Button
+                variant="heroOutline"
+                size="xl"
+                className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary"
+              >
                 Start Selling Today
                 <ArrowRight className="h-4 w-4 ml-2" />
               </Button>

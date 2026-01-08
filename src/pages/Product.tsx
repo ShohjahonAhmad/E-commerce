@@ -1,17 +1,120 @@
 import { useParams, Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import { Layout } from '@/components/layout/Layout';
-import { mockProducts } from '@/data/products';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/context/CartContext';
 import { Heart, Share2, ChevronRight, Shield, Truck, RotateCcw } from 'lucide-react';
 import { toast } from 'sonner';
 import { ProductGrid } from '@/components/products/ProductGrid';
+import { supabase } from '@/integrations/supabase/client';
+import { Product as ProductType } from '@/types/product';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function Product() {
   const { id } = useParams<{ id: string }>();
   const { addToCart } = useCart();
+  const [product, setProduct] = useState<ProductType | null>(null);
+  const [relatedProducts, setRelatedProducts] = useState<ProductType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const product = mockProducts.find((p) => p.id === id);
+  useEffect(() => {
+    if (!id) return;
+
+    const fetchProduct = async () => {
+      setIsLoading(true);
+
+      // Fetch the product
+      const { data, error } = await supabase
+        .from('products')
+        .select('*')
+        .eq('id', id)
+        .eq('is_active', true)
+        .maybeSingle();
+
+      if (error || !data) {
+        setProduct(null);
+        setIsLoading(false);
+        return;
+      }
+
+      // Fetch seller profile
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('display_name')
+        .eq('id', data.seller_id)
+        .maybeSingle();
+
+      const transformedProduct: ProductType = {
+        id: data.id,
+        name: data.title,
+        brand: data.brand,
+        price: data.price,
+        originalPrice: data.original_price || undefined,
+        image: data.image_url || '/placeholder.svg',
+        category: data.category as ProductType['category'],
+        size: data.size || undefined,
+        condition: data.condition as ProductType['condition'],
+        description: data.description || '',
+        sellerId: data.seller_id,
+        sellerName: profile?.display_name || 'Unknown Seller',
+        createdAt: data.created_at,
+      };
+
+      setProduct(transformedProduct);
+
+      // Fetch related products (same category, excluding current)
+      const { data: related } = await supabase
+        .from('products')
+        .select('*')
+        .eq('category', data.category)
+        .eq('is_active', true)
+        .neq('id', id)
+        .limit(4);
+
+      if (related && related.length > 0) {
+        const relatedTransformed: ProductType[] = related.map((p) => ({
+          id: p.id,
+          name: p.title,
+          brand: p.brand,
+          price: p.price,
+          originalPrice: p.original_price || undefined,
+          image: p.image_url || '/placeholder.svg',
+          category: p.category as ProductType['category'],
+          size: p.size || undefined,
+          condition: p.condition as ProductType['condition'],
+          description: p.description || '',
+          sellerId: p.seller_id,
+          sellerName: 'Seller',
+          createdAt: p.created_at,
+        }));
+        setRelatedProducts(relatedTransformed);
+      }
+
+      setIsLoading(false);
+    };
+
+    fetchProduct();
+  }, [id]);
+
+  if (isLoading) {
+    return (
+      <Layout>
+        <div className="container mx-auto px-4 py-8">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16">
+            <Skeleton className="aspect-[3/4] rounded-sm" />
+            <div className="space-y-4 lg:py-8">
+              <Skeleton className="h-6 w-24" />
+              <Skeleton className="h-4 w-32" />
+              <Skeleton className="h-10 w-3/4" />
+              <Skeleton className="h-8 w-40" />
+              <Skeleton className="h-24 w-full" />
+              <Skeleton className="h-14 w-full" />
+            </div>
+          </div>
+        </div>
+      </Layout>
+    );
+  }
 
   if (!product) {
     return (
@@ -25,10 +128,6 @@ export default function Product() {
       </Layout>
     );
   }
-
-  const relatedProducts = mockProducts
-    .filter((p) => p.category === product.category && p.id !== product.id)
-    .slice(0, 4);
 
   const handleAddToCart = () => {
     addToCart(product);

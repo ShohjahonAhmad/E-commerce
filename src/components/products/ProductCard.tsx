@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom';
-import { Heart } from 'lucide-react';
-import { Product } from '@/types/product';
-import { Button } from '@/components/ui/button';
+import { Link } from "react-router-dom";
+import { Heart } from "lucide-react";
+import { Product } from "@/types/product";
+import { Button } from "@/components/ui/button";
 
 interface ProductCardProps {
   product: Product;
@@ -22,7 +22,7 @@ export function ProductCard({ product }: ProductCardProps) {
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             loading="lazy"
           />
-          
+
           {/* Wishlist button */}
           <Button
             variant="ghost"
@@ -39,7 +39,9 @@ export function ProductCard({ product }: ProductCardProps) {
           {/* Condition badge */}
           <div className="absolute bottom-3 left-3">
             <span className="px-2 py-1 text-xs font-medium bg-background/90 backdrop-blur-sm rounded-sm capitalize">
-              {product.condition === 'like-new' ? 'Like New' : product.condition}
+              {product.condition === "like-new"
+                ? "Like New"
+                : product.condition}
             </span>
           </div>
 

@@ -81,7 +81,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  to="/sell"
+                  to="/dashboard"
                   className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                 >
                   Sell With Us

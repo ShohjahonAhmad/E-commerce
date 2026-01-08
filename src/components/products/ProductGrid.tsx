@@ -1,5 +1,5 @@
-import { Product } from '@/types/product';
-import { ProductCard } from './ProductCard';
+import { Product } from "@/types/product";
+import { ProductCard } from "./ProductCard";
 
 interface ProductGridProps {
   products: Product[];
@@ -16,10 +16,7 @@ export function ProductGrid({ products, title }: ProductGridProps) {
       )}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
         {products.map((product, index) => (
-          <div
-            key={product.id}
-            style={{ animationDelay: `${index * 0.1}s` }}
-          >
+          <div key={product.id} style={{ animationDelay: `${index * 0.1}s` }}>
             <ProductCard product={product} />
           </div>
         ))}

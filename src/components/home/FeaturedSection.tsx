@@ -1,8 +1,8 @@
-import { Link } from 'react-router-dom';
-import { mockProducts } from '@/data/products';
-import { ProductGrid } from '@/components/products/ProductGrid';
-import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
+import { Link } from "react-router-dom";
+import { mockProducts } from "@/data/products";
+import { ProductGrid } from "@/components/products/ProductGrid";
+import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
 
 export function FeaturedSection() {
   const featuredProducts = mockProducts.slice(0, 4);
