@@ -3,6 +3,10 @@
 A web marketplace where users can browse products, view product details, add items to a cart, and checkout.  
 Users can authenticate, manage their profile, and (when assigned the **seller** role) access a **Seller Dashboard** to create and manage product listings. Admin users can access an **Admin Dashboard**.
 
+## Live Demo
+
+- https://e-commerce-vert-seven-15.vercel.app/
+
 ## What this project does
 
 ### Buyer features
